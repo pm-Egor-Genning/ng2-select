@@ -235,6 +235,7 @@ export class SelectComponent implements OnInit {
   public inputEvent(e:any, isUpMode:boolean = false):void {
     // tab
     if (e.keyCode === 9) {
+      this.matchClick(null);
       return;
     }
     if (isUpMode && (e.keyCode === 37 || e.keyCode === 39 || e.keyCode === 38 ||
@@ -352,8 +353,10 @@ export class SelectComponent implements OnInit {
     if (this._disabled === true) {
       return;
     }
-    this.inputMode = !this.inputMode;
-    if (this.inputMode === true && ((this.multiple === true && e) || this.multiple === false)) {
+    if (e) {
+      this.inputMode = !this.inputMode;
+    }
+    if (!e || (this.inputMode === true && ((this.multiple === true && e) || this.multiple === false))) {
       this.focusToInput();
       this.open();
     }
@@ -373,7 +376,11 @@ export class SelectComponent implements OnInit {
       this.inputEvent(event, true);
       return;
     }
-    if (event.keyCode === 9 || event.keyCode === 13 ||
+    if (event.keyCode === 9) {
+      this.matchClick(null);
+      return;
+    }
+    if (event.keyCode === 13 ||
       event.keyCode === 27 || (event.keyCode >= 37 && event.keyCode <= 40)) {
       event.preventDefault();
       return;
