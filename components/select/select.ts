@@ -185,9 +185,10 @@ export class Select {
     if (this._disabled === true) {
       return;
     }
-
-    this.inputMode = !this.inputMode;
-    if (this.inputMode === true && ((this.multiple === true && e) || this.multiple === false)) {
+    if (e) {
+      this.inputMode = !this.inputMode;
+    }
+    if (!e || (this.inputMode === true && ((this.multiple === true && e) || this.multiple === false))) {
       this.focusToInput();
       this.open();
     }
@@ -209,8 +210,11 @@ export class Select {
       this.inputEvent(e, true);
       return;
     }
-
-    if (e.keyCode === 9 || e.keyCode === 13 ||
+    if (e.keyCode === 9) {
+      this.matchClick(null);
+    }
+    
+    if (e.keyCode === 13 ||
       e.keyCode === 27 || (e.keyCode >= 37 && e.keyCode <= 40)) {
       e.preventDefault();
       return;
@@ -309,6 +313,7 @@ export class Select {
   public inputEvent(e:any, isUpMode:boolean = false) {
     // tab
     if (e.keyCode === 9) {
+      this.matchClick(null);
       return;
     }
 
